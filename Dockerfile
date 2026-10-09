@@ -4,7 +4,7 @@ COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
 RUN npm run build
-
+RUN pip install --no-cache-dir -r /srv/backend/requirements-render.txt
 FROM python:3.12-slim AS app
 WORKDIR /srv
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
