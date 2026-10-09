@@ -4990,9 +4990,9 @@ from fastapi import Request
 from starlette.responses import JSONResponse
 from sqlalchemy import text
 
-
 PUBLIC_PATHS = {
     "/health",
+    "/api/health",
     "/auth/login",
     "/auth/logout",
     "/docs",
@@ -5007,7 +5007,15 @@ async def protect_business_api(
     request: Request,
     call_next,
 ):
-    path = request.url.path
+    # The backend is mounted at /api on Render, but runs at / locally.
+    # Starlette may preserve the mount prefix in request.url.path.
+    # Normalize it before checking public paths and role permissions.
+    path = request.scope.get("path", request.url.path)
+    root_path = request.scope.get("root_path", "")
+    if root_path and path.startswith(root_path + "/"):
+        path = path[len(root_path):]
+    elif path.startswith("/api/"):
+        path = path[len("/api"):]
 
     # Allow preflight requests for CORS.
     if request.method == "OPTIONS":
