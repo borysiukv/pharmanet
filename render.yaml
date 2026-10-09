@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: pharmanet-demo-web
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pharmanet-demo-db
+          property: connectionString
+      - key: PHARMANET_SECURE_COOKIES
+        value: "true"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+
+databases:
+  - name: pharmanet-demo-db
+    plan: free
+    databaseName: pharmanet_demo
+    user: pharmanet_demo_user

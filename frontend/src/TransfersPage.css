@@ -1,0 +1,374 @@
+
+/* ================================================
+   PHARMANET - TRANSFERS
+   ================================================ */
+
+.transfers-page {
+  width: 100%;
+  min-width: 0;
+}
+
+.transfers-page .panel {
+  margin-bottom: 26px;
+}
+
+.transfers-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.transfers-form {
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+.transfers-locations {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+  gap: 16px;
+  align-items: end;
+}
+
+.transfers-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.transfers-field label {
+  font-size: 13px;
+  color: #425968;
+  font-weight: 600;
+}
+
+.transfers-field select,
+.transfers-search-line input,
+.transfers-quantity-input {
+  width: 100%;
+  min-width: 0;
+  height: 45px;
+  box-sizing: border-box;
+  border: 1px solid #dce5e9;
+  border-radius: 9px;
+  padding: 10px 13px;
+  background: white;
+  color: #243c4a;
+  font-size: 14px;
+}
+
+.transfers-field select:focus,
+.transfers-search-line input:focus,
+.transfers-quantity-input:focus {
+  outline: none;
+  border-color: #198b75;
+  box-shadow: 0 0 0 3px rgba(25, 139, 117, 0.12);
+}
+
+.transfers-direction {
+  display: flex;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  color: #198b75;
+}
+
+.transfers-section-head h3 {
+  margin: 0 0 7px;
+  font-size: 18px;
+  color: #203442;
+}
+
+.transfers-section-head p {
+  margin: 0;
+  color: #81909c;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.transfers-search-line {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.transfers-search-line input {
+  flex: 1;
+}
+
+.transfers-stock-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-height: 390px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.transfers-stock-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 100px auto;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 17px;
+  border-radius: 11px;
+  border: 1px solid #e2e9ed;
+  background: #fcfdfd;
+}
+
+.transfers-stock-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.transfers-stock-main strong {
+  color: #253e4a;
+  font-size: 14px;
+}
+
+.transfers-stock-main small {
+  color: #8295a0;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.transfers-stock-amount {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+
+.transfers-stock-amount span {
+  color: #8a9ba4;
+  font-size: 12px;
+}
+
+.transfers-stock-amount strong {
+  font-size: 18px;
+  color: #218b71;
+}
+
+.transfers-stock-card .sale-add-button {
+  padding: 10px 16px;
+}
+
+.transfers-quantity-input {
+  max-width: 125px;
+}
+
+.transfers-total {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.transfers-total > div {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  background: #f4f8fa;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.transfers-total span {
+  font-size: 12px;
+  color: #81909c;
+}
+
+.transfers-total strong {
+  font-size: 24px;
+  color: #203c49;
+}
+
+.transfers-form > .sale-submit {
+  width: 100%;
+}
+
+.transfers-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.transfers-status {
+  display: inline-block;
+  background: #e7f4f0;
+  color: #168166;
+  border-radius: 20px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.transfers-details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 25px;
+}
+
+.transfers-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.transfers-detail-grid > div {
+  border: 1px solid #e1e9ee;
+  border-radius: 10px;
+  padding: 19px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.transfers-detail-grid span {
+  font-size: 12px;
+  color: #8b9ba5;
+}
+
+.transfers-detail-grid strong {
+  font-size: 16px;
+  color: #243c49;
+  overflow-wrap: anywhere;
+}
+
+.transfers-success {
+  margin: 15px 26px 26px;
+  padding: 17px;
+  border-radius: 9px;
+  background: #e5f7f0;
+  color: #13785f;
+  font-weight: 600;
+}
+
+.transfers-warning {
+  background: #fffaf1;
+  color: #835d21;
+  border: 1px solid #ead3a7;
+  border-radius: 10px;
+  padding: 17px;
+}
+
+.transfers-warning p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.transfers-warning button {
+  margin: 4px 8px 4px 0;
+}
+
+.transfers-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 31, 40, 0.6);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.transfers-modal {
+  background: white;
+  padding: 30px;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  border-radius: 16px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+}
+
+.transfers-modal-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  background: #e7f5ef;
+  color: #16856c;
+  font-size: 27px;
+  border-radius: 13px;
+  margin-bottom: 20px;
+}
+
+.transfers-modal h2 {
+  font-size: 22px;
+  color: #203442;
+  margin: 0 0 12px;
+}
+
+.transfers-modal p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #718695;
+}
+
+.transfers-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+  .transfers-locations {
+    grid-template-columns: 1fr;
+  }
+
+  .transfers-direction {
+    height: auto;
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 750px) {
+  .transfers-form {
+    padding: 16px;
+  }
+
+  .transfers-stock-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .transfers-stock-amount {
+    text-align: left;
+  }
+
+  .transfers-search-line {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .transfers-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .transfers-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .transfers-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .transfers-page .sale-cart-table {
+    min-width: 680px;
+  }
+}

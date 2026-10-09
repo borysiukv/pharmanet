@@ -1,0 +1,26 @@
+
+services:
+  db:
+    image: postgres:17
+    container_name: pharmacy_db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: apteka_db
+      POSTGRES_USER: apteka_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+    ports:
+      - "127.0.0.1:5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U apteka_user -d apteka_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

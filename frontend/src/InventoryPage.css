@@ -1,0 +1,146 @@
+
+/* ============================================
+   PHARMANET — INVENTORY MANAGEMENT
+   ============================================ */
+
+.inventory-page {
+  width: 100%;
+  min-width: 0;
+}
+
+.inventory-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.inventory-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.inventory-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.inventory-filters > * {
+  min-width: 180px;
+  flex: 1;
+}
+
+.inventory-table {
+  width: 100%;
+  min-width: 1050px;
+}
+
+.inventory-statuses {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inventory-status {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.inventory-status-available {
+  background: #e7f4f0;
+  color: #168166;
+}
+
+.inventory-status-blocked {
+  background: #fff0f0;
+  color: #b73d3d;
+}
+
+.inventory-status-expired {
+  background: #fce8e8;
+  color: #ac3030;
+}
+
+.inventory-status-low {
+  background: #fff4db;
+  color: #a57320;
+}
+
+.inventory-expired-date {
+  color: #bf3434;
+  font-weight: 700;
+}
+
+.inventory-action-block,
+.inventory-action-unblock {
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  background: white;
+}
+
+.inventory-action-block {
+  color: #b73d3d;
+  border: 1px solid #f0c5c5;
+}
+
+.inventory-action-unblock {
+  color: #167c65;
+  border: 1px solid #acd8c9;
+}
+
+.inventory-action-block:hover:not(:disabled) {
+  background: #fff0f0;
+}
+
+.inventory-action-unblock:hover:not(:disabled) {
+  background: #e7f4f0;
+}
+
+.inventory-action-block:disabled,
+.inventory-action-unblock:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.inventory-success {
+  margin: 15px 24px;
+  padding: 15px;
+  border-radius: 9px;
+  background: #e5f7f0;
+  color: #13785f;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .inventory-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inventory-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .inventory-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,314 @@
+
+/* =====================================================
+   PHARMANET - WRITE-OFFS
+   ===================================================== */
+
+.writeoffs-page {
+  min-width: 0;
+  width: 100%;
+}
+
+.writeoffs-page .panel {
+  margin-bottom: 26px;
+}
+
+.writeoffs-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.writeoffs-form,
+.writeoffs-details-content {
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.writeoffs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.writeoffs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #425968;
+}
+
+.writeoffs-field select,
+.writeoffs-search,
+.writeoffs-form input[type="number"] {
+  width: 100%;
+  height: 45px;
+  min-width: 0;
+  padding: 10px 13px;
+  border: 1px solid #dce5e9;
+  border-radius: 9px;
+  background: white;
+  color: #243c4a;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.writeoffs-form input[type="number"] {
+  max-width: 135px;
+}
+
+.writeoffs-field select:focus,
+.writeoffs-search:focus,
+.writeoffs-form input:focus {
+  outline: none;
+  border-color: #198b75;
+  box-shadow: 0 0 0 3px rgba(25,139,117,.12);
+}
+
+.writeoffs-section h3 {
+  margin: 0 0 7px;
+  color: #203442;
+  font-size: 18px;
+}
+
+.writeoffs-section p {
+  margin: 0;
+  color: #81909c;
+  font-size: 13px;
+}
+
+.writeoffs-stock-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.writeoffs-stock-card {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 110px auto;
+  gap: 16px;
+  align-items: center;
+  padding: 15px 17px;
+  border: 1px solid #e3eaee;
+  border-radius: 11px;
+  background: #fcfdfd;
+}
+
+.writeoffs-stock-card > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.writeoffs-stock-card strong {
+  color: #253e4a;
+  font-size: 14px;
+}
+
+.writeoffs-stock-card small {
+  color: #8295a0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.writeoffs-stock-card > span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #287b68;
+}
+
+.writeoffs-summary {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 16px;
+}
+
+.writeoffs-summary > div {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  background: #f4f8fa;
+}
+
+.writeoffs-summary span {
+  color: #81909c;
+  font-size: 12px;
+}
+
+.writeoffs-summary strong {
+  color: #203c49;
+  font-size: 24px;
+}
+
+.writeoffs-form > .sale-submit {
+  width: 100%;
+}
+
+.writeoffs-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.writeoffs-status {
+  display: inline-block;
+  background: #e7f4f0;
+  color: #168166;
+  border-radius: 20px;
+  padding: 7px 12px;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.writeoffs-detail-status {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 18px;
+  background: #f5f8fa;
+  border-radius: 10px;
+  color: #637987;
+}
+
+.writeoffs-detail-status strong {
+  color: #203c49;
+}
+
+.writeoffs-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.writeoffs-success {
+  padding: 17px;
+  border-radius: 9px;
+  background: #e5f7f0;
+  color: #13785f;
+  font-weight: 600;
+}
+
+.writeoffs-warning {
+  border: 1px solid #ead3a7;
+  padding: 17px;
+  background: #fffaf1;
+  color: #835d21;
+  border-radius: 10px;
+}
+
+.writeoffs-warning button {
+  margin: 5px 8px 5px 0;
+}
+
+.writeoffs-expired,
+.writeoffs-soon {
+  display: inline-block;
+  padding: 6px 11px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.writeoffs-expired {
+  background: #fff0f0;
+  color: #b73d3d;
+}
+
+.writeoffs-soon {
+  background: #fff4db;
+  color: #a57320;
+}
+
+.writeoffs-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(13,31,40,.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.writeoffs-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  box-shadow: 0 24px 70px rgba(0,0,0,.25);
+}
+
+.writeoffs-modal-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  font-size: 26px;
+  background: #e7f5ef;
+  border-radius: 13px;
+  margin-bottom: 18px;
+}
+
+.writeoffs-modal h2 {
+  color: #203442;
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.writeoffs-modal p {
+  color: #718695;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.writeoffs-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+@media (max-width: 900px) {
+  .writeoffs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .writeoffs-stock-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .writeoffs-form,
+  .writeoffs-details-content {
+    padding: 16px;
+  }
+
+  .writeoffs-stats,
+  .writeoffs-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .writeoffs-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .writeoffs-modal {
+    padding: 22px;
+  }
+
+  .writeoffs-modal-actions {
+    flex-direction: column-reverse;
+  }
+}
