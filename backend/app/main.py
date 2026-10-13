@@ -5021,8 +5021,12 @@ async def protect_business_api(
     if request.method == "OPTIONS":
         return await call_next(request)
 
-    # Public endpoints.
+    # Public employee-auth endpoints and health checks.
     if path in PUBLIC_PATHS:
+        return await call_next(request)
+
+    # Public catalog is strictly read-only; other methods remain protected.
+    if request.method == "GET" and path in {"/public/locations", "/public/products"}:
         return await call_next(request)
 
     # Validate session cookie.
@@ -5174,4 +5178,83 @@ async def protect_business_api(
     request.state.roles = list(current_roles)
 
     return await call_next(request)
+
+
+# ============================================================
+# PUBLIC CUSTOMER CATALOG (READ ONLY, NO EMPLOYEE DATA)
+# ============================================================
+
+@app.get("/public/locations", tags=["Customer catalog"])
+def customer_locations(db: Session = Depends(get_db)):
+    rows = db.execute(text("""
+        SELECT location_id, name, address, phone
+        FROM locations
+        WHERE is_active = TRUE AND location_type = 'PHARMACY'
+        ORDER BY name
+    """)).mappings().all()
+    return {"locations": [dict(row) for row in rows]}
+
+
+@app.get("/public/products", tags=["Customer catalog"])
+def customer_products(
+    search: str = Query(default="", max_length=120),
+    location_id: int | None = Query(default=None, ge=1),
+    limit: int = Query(default=50, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    db: Session = Depends(get_db),
+):
+    # Public responses deliberately exclude employees, supplier prices,
+    # purchase costs, individual batches, and exact inventory quantities.
+    rows = db.execute(text("""
+        SELECT p.product_id, p.name, p.unit,
+               pc.name AS category, mf.name AS manufacturer,
+               COALESCE(med.prescription_required, FALSE) AS prescription_required,
+               public_price.price,
+               COALESCE(public_stock.in_stock, FALSE) AS in_stock
+        FROM products p
+        LEFT JOIN product_categories pc ON pc.category_id = p.category_id
+        LEFT JOIN manufacturers mf ON mf.manufacturer_id = p.manufacturer_id
+        LEFT JOIN medicines med ON med.product_id = p.product_id
+        LEFT JOIN LATERAL (
+            SELECT pp.price
+            FROM product_prices pp
+            JOIN locations l ON l.location_id = pp.location_id
+            WHERE pp.product_id = p.product_id
+              AND l.location_type = 'PHARMACY'
+              AND l.is_active = TRUE
+              AND (CAST(:location_id AS INTEGER) IS NULL
+                   OR pp.location_id = CAST(:location_id AS INTEGER))
+              AND pp.is_active = TRUE
+              AND pp.valid_from <= CURRENT_DATE
+              AND (pp.valid_to IS NULL OR pp.valid_to >= CURRENT_DATE)
+            ORDER BY pp.valid_from DESC, pp.price_id DESC
+            LIMIT 1
+        ) public_price ON TRUE
+        LEFT JOIN LATERAL (
+            SELECT TRUE AS in_stock
+            FROM inventory i
+            JOIN batches b ON b.batch_id = i.batch_id
+            JOIN locations l ON l.location_id = i.location_id
+            WHERE b.product_id = p.product_id
+              AND l.location_type = 'PHARMACY'
+              AND l.is_active = TRUE
+              AND (CAST(:location_id AS INTEGER) IS NULL
+                   OR i.location_id = CAST(:location_id AS INTEGER))
+              AND i.status = 'AVAILABLE'
+              AND (b.expiry_date IS NULL OR b.expiry_date >= CURRENT_DATE)
+              AND i.quantity > i.reserved_quantity
+            LIMIT 1
+        ) public_stock ON TRUE
+        WHERE p.is_active = TRUE
+          AND (:search = '' OR p.name ILIKE :search_pattern)
+        ORDER BY p.name, p.product_id
+        LIMIT :limit OFFSET :offset
+    """), {
+        "search": search.strip(),
+        "search_pattern": f"%{search.strip()}%",
+        "location_id": location_id,
+        "limit": limit,
+        "offset": offset,
+    }).mappings().all()
+    return {"products": [dict(row) for row in rows], "limit": limit, "offset": offset}
 
