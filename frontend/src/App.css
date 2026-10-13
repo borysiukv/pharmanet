@@ -1812,3 +1812,56 @@ nav button.nav-item:focus-visible {
   font-size: 13px;
   font-weight: 600;
 }
+/* Employee login navigation */
+
+.ph-employee-login {
+  position: relative;
+  min-height: 100vh;
+}
+
+.ph-back-to-choice {
+  position: fixed;
+  top: 28px;
+  right: 32px;
+  left: auto;
+  z-index: 100;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 11px 18px;
+  border: 1px solid #d7e6df;
+  border-radius: 12px;
+
+  background: #ffffff;
+  color: #376f59;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(35, 79, 62, 0.08);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.ph-back-to-choice:hover {
+  background: #eaf5ef;
+  transform: translateY(-1px);
+}
+
+.ph-back-to-choice:focus-visible {
+  outline: 3px solid #78b79b;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .ph-back-to-choice {
+    top: 12px;
+    right: 12px;
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+}
