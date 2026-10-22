@@ -118,7 +118,7 @@ export default function CustomerPortal({ onBack }: Props) {
       <section className="customer-hero">
         <p className="customer-eyebrow">Аптечна мережа PharmaNet</p>
         <h1>Знайдіть потрібні препарати</h1>
-        <p>Порівнюйте наявність і орієнтовні ціни в аптеках. Оберіть аптеку, перевірте ціну й наявність та забронюйте товар на 30 хвилин. Оплата — в аптеці.</p>
+        <p>Порівнюйте наявність і орієнтовні ціни в аптеках. Оберіть аптеку, перевірте ціну й наявність та забронюйте товар на 3 дні. Оплата — в аптеці.</p>
       </section>
       <section className="customer-filters">
         <label>Пошук препарату
@@ -154,7 +154,7 @@ export default function CustomerPortal({ onBack }: Props) {
             {!p.prescription_required && <button type="button" className="customer-reserve-button"
               disabled={!p.in_stock || p.price == null || !locationId}
               onClick={() => { setBookingProduct(p); setBookingQuantity(1); setBookingError('') }}>
-              {!locationId ? 'Оберіть аптеку для бронювання' : 'Забронювати на 30 хв'}
+              {!locationId ? 'Оберіть аптеку для бронювання' : 'Забронювати на 3 дні'}
             </button>}
           </article>)}
         </section>
@@ -169,7 +169,7 @@ export default function CustomerPortal({ onBack }: Props) {
           <button type="button" className="customer-booking-close" onClick={() => setBookingProduct(null)}>×</button>
           <h2>Бронювання препарату</h2>
           <p><strong>{bookingProduct.name}</strong> · {locations.find(l => String(l.location_id) === locationId)?.name}</p>
-          <p>Резерв на 30 хвилин. Оплата безпосередньо в аптеці.</p>
+          <p>Резерв на 3 дні. Оплата безпосередньо в аптеці.</p>
           <form onSubmit={submitBooking} className="customer-booking-form">
             <label>Ім’я<input required minLength={2} maxLength={50} value={firstName} onChange={e => setFirstName(e.target.value)} autoComplete="given-name" /></label>
             <label>Прізвище<input required minLength={2} maxLength={50} value={lastName} onChange={e => setLastName(e.target.value)} autoComplete="family-name" /></label>
