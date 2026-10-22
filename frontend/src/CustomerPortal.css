@@ -13,4 +13,25 @@
 .customer-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.customer-product{background:#fff;border:1px solid #e1ebe5;border-radius:15px;padding:22px;min-height:195px;display:flex;flex-direction:column}.customer-product h2{font-size:18px;margin:12px 0 6px}.customer-muted{color:#85998e;font-size:13px}.customer-category{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#3a9b74;font-weight:800}.customer-rx{font-size:12px;color:#a76b21}.customer-product-bottom{margin-top:auto;padding-top:18px;display:flex;justify-content:space-between;gap:10px;align-items:center}.customer-product-bottom strong{font-size:16px}.customer-available,.customer-unavailable{font-size:12px;font-weight:700}.customer-available{color:#27804f}.customer-unavailable{color:#b16a55}.customer-error{color:#ab3f32;background:#fff1ed;border-radius:10px;padding:12px}.customer-empty{grid-column:1/-1;color:#678275;padding:35px}.customer-pagination{display:flex;align-items:center;justify-content:center;gap:15px;margin:25px}.customer-pagination button:disabled{opacity:.4;cursor:not-allowed}.customer-disclaimer{text-align:center;color:#819b8b;font-size:12px}
 @media(max-width:820px){.customer-product-grid{grid-template-columns:repeat(2,1fr)}.customer-choice-grid{grid-template-columns:1fr}}@media(max-width:550px){.customer-product-grid{grid-template-columns:1fr}.customer-hero{padding:23px}.customer-header{flex-wrap:wrap}.customer-portal{padding:0 15px 30px}}
 
-.customer-reserve-button{width:100%;margin-top:12px;border:0;border-radius:10px;background:#2f8058;color:#fff;padding:12px;font-weight:700;cursor:pointer}.customer-reserve-button:disabled{background:#dfeae3;color:#7b8e82;cursor:not-allowed}.customer-reservation-success{background:#e5f7ec;border:1px solid #92d6aa;border-radius:14px;padding:18px;margin:18px 0;color:#246444}.customer-reservation-success button{border:0;border-radius:8px;background:#2e7f57;color:white;padding:8px 14px;cursor:pointer}.customer-booking-backdrop{position:fixed;inset:0;background:#101f18aa;z-index:5000;display:flex;align-items:center;justify-content:center;padding:18px}.customer-booking-modal{background:white;position:relative;border-radius:20px;padding:26px;max-width:480px;width:100%;max-height:95vh;overflow-y:auto;color:#284337}.customer-booking-modal h2{margin:0 0 12px}.customer-booking-close{position:absolute;right:20px;top:14px;border:0;background:none;font-size:26px;color:#577567;cursor:pointer}.customer-booking-form{display:grid;gap:12px;margin-top:18px}.customer-booking-form label{display:grid;gap:6px;font-size:14px;font-weight:600}.customer-booking-form input{padding:12px;border:1px solid #cbddd1;border-radius:9px;font:inherit;color:#243e34}.customer-booking-form>button{background:#2f8058;color:white;border:0;padding:14px;border-radius:10px;cursor:pointer;font-weight:700}.customer-booking-form>button:disabled{opacity:.6}
+/* Pharmacy address shown in the customer catalogue */
+.customer-pharmacy-address{display:flex;align-items:flex-start;gap:14px;margin:-4px 0 22px;padding:18px 22px;background:#e7f5ec;border:1px solid #badcc8;border-radius:14px;color:#205b43}
+.customer-pharmacy-icon{font-size:24px;line-height:1.4}
+.customer-pharmacy-address strong{font-size:17px}
+.customer-pharmacy-address p{margin:6px 0;font-size:14px;line-height:1.5}
+.customer-pharmacy-address a{color:#186c4d;text-decoration:underline;text-underline-offset:2px}
+.customer-map-link{display:inline-block;margin-top:5px;font-size:14px;font-weight:750}
+
+/* Reservation button and modal (preserved from booking-enabled version) */
+.customer-reserve-button{width:100%;margin-top:12px;border:0;border-radius:10px;background:#2f8058;color:#fff;padding:12px;font-weight:700;cursor:pointer}
+.customer-reserve-button:disabled{background:#dfeae3;color:#7b8e82;cursor:not-allowed}
+.customer-reservation-success{background:#e5f7ec;border:1px solid #92d6aa;border-radius:14px;padding:18px;margin:18px 0;color:#246444}
+.customer-reservation-success button{border:0;border-radius:8px;background:#2e7f57;color:white;padding:8px 14px;cursor:pointer}
+.customer-booking-backdrop{position:fixed;inset:0;background:#101f18aa;z-index:5000;display:flex;align-items:center;justify-content:center;padding:18px}
+.customer-booking-modal{background:white;position:relative;border-radius:20px;padding:26px;max-width:480px;width:100%;max-height:95vh;overflow-y:auto;color:#284337}
+.customer-booking-modal h2{margin:0 0 12px}
+.customer-booking-close{position:absolute;right:20px;top:14px;border:0;background:none;font-size:26px;color:#577567;cursor:pointer}
+.customer-booking-form{display:grid;gap:12px;margin-top:18px}
+.customer-booking-form label{display:grid;gap:6px;font-size:14px;font-weight:600}
+.customer-booking-form input{padding:12px;border:1px solid #cbddd1;border-radius:9px;font:inherit;color:#243e34}
+.customer-booking-form>button{background:#2f8058;color:white;border:0;padding:14px;border-radius:10px;cursor:pointer;font-weight:700}
+.customer-booking-form>button:disabled{opacity:.6}

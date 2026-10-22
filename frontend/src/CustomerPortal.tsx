@@ -105,7 +105,7 @@ export default function CustomerPortal({ onBack }: Props) {
     } catch (err) { setBookingError(err instanceof Error ? err.message : 'Помилка бронювання') }
     finally { setBookingBusy(false) }
   }
-
+  const selectedPharmacy = locations.find(l => String(l.location_id) === locationId)
   const visible = inStockOnly ? products.filter(p => p.in_stock) : products
   const money = (v: number) => `${Number(v).toLocaleString('uk-UA', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} грн`
 
@@ -127,15 +127,40 @@ export default function CustomerPortal({ onBack }: Props) {
         <label>Аптека
           <select value={locationId} onChange={e => setLocationId(e.target.value)}>
             <option value="">Усі аптеки</option>
-            {locations.map(l => <option key={l.location_id} value={l.location_id}>{l.name}</option>)}
+            {locations.map(l => (
+              <option key={l.location_id} value={l.location_id}>
+                {l.name}{l.address ? ` — ${l.address}` : ''}
+              </option>
+            ))}
           </select>
         </label>
         <label className="customer-check"><input type="checkbox" checked={inStockOnly} onChange={e => setInStockOnly(e.target.checked)} /> Лише в наявності</label>
       </section>
+      {selectedPharmacy && (
+        <aside className="customer-pharmacy-address" aria-live="polite">
+          <span className="customer-pharmacy-icon" aria-hidden="true">📍</span>
+          <div>
+            <strong>{selectedPharmacy.name}</strong>
+            <p>Адреса: {selectedPharmacy.address?.trim() || 'Адресу уточнюйте в аптеці'}</p>
+            {selectedPharmacy.phone && <p>Телефон: <a href={`tel:${selectedPharmacy.phone.replace(/[^+\d]/g, '')}`}>{selectedPharmacy.phone}</a></p>}
+            {selectedPharmacy.address?.trim() && (
+              <a
+                className="customer-map-link"
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedPharmacy.address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Показати на карті ↗
+              </a>
+            )}
+          </div>
+        </aside>
+      )}
       {error && <p className="customer-error" role="alert">{error}</p>}
       {confirmation && <section className="customer-reservation-success" role="status">
         <strong>Бронювання №{confirmation.reservation_id} підтверджено!</strong>
         <p>{confirmation.product_name}, {confirmation.quantity} од. · {confirmation.location_name}</p>
+        {(() => { const pharmacy = locations.find(l => l.name === confirmation.location_name) || selectedPharmacy; return pharmacy?.address ? <p>📍 Адреса: {pharmacy.address}</p> : null })()}
         <p>Дійсне до {new Date(confirmation.expires_at).toLocaleString('uk-UA')}. Оплата на касі аптеки.</p>
         <button type="button" onClick={() => setConfirmation(null)}>Зрозуміло</button>
       </section>}
@@ -168,13 +193,14 @@ export default function CustomerPortal({ onBack }: Props) {
         <section className="customer-booking-modal" role="dialog" aria-modal="true" aria-label="Бронювання препарату">
           <button type="button" className="customer-booking-close" onClick={() => setBookingProduct(null)}>×</button>
           <h2>Бронювання препарату</h2>
-          <p><strong>{bookingProduct.name}</strong> · {locations.find(l => String(l.location_id) === locationId)?.name}</p>
+          <p><strong>{bookingProduct.name}</strong> · {selectedPharmacy?.name}</p>
+          {selectedPharmacy?.address && <p>📍 Адреса аптеки: {selectedPharmacy.address}</p>}
           <p>Резерв на 3 дні. Оплата безпосередньо в аптеці.</p>
           <form onSubmit={submitBooking} className="customer-booking-form">
             <label>Ім’я<input required minLength={2} maxLength={50} value={firstName} onChange={e => setFirstName(e.target.value)} autoComplete="given-name" /></label>
             <label>Прізвище<input required minLength={2} maxLength={50} value={lastName} onChange={e => setLastName(e.target.value)} autoComplete="family-name" /></label>
             <label>Телефон<input required type="tel" minLength={7} value={phone} onChange={e => setPhone(e.target.value)} autoComplete="tel" placeholder="+380..." /></label>
-            <label>Кількість<input type="number" min="1" max="10" value={bookingQuantity} onChange={e => setBookingQuantity(Math.max(1,Math.min(10,Number(e.target.value) || 1)))} /></label>
+            <label>Кількість<input type="number" min="1" max="10" value={bookingQuantity} onChange={e => setBookingQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))} /></label>
             {bookingError && <p className="customer-error" role="alert">{bookingError}</p>}
             <button type="submit" disabled={bookingBusy}>{bookingBusy ? 'Бронюємо…' : 'Підтвердити бронювання'}</button>
           </form>
