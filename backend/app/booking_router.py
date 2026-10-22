@@ -156,7 +156,7 @@ def create_reservation(data: BookRequest, db: Session = Depends(get_db)):
         """), {'first':data.first_name.strip(), 'last':data.last_name.strip(), 'phone':phone}).scalar_one()
         reservation = db.execute(text("""
             INSERT INTO reservations (customer_id,location_id,reservation_date,expiry_date,status)
-            VALUES (:customer,:loc,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP + INTERVAL '30 minutes','CONFIRMED')
+            VALUES (:customer,:loc,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP + INTERVAL '3 days','CONFIRMED')
             RETURNING reservation_id, expiry_date
         """), {'customer':customer_id,'loc':data.location_id}).mappings().one()
         db.execute(text("""
@@ -182,7 +182,7 @@ def create_reservation(data: BookRequest, db: Session = Depends(get_db)):
             'location_name':pharmacy['name'], 'product_name':product['name'],
             'quantity':data.quantity, 'price':float(price),
             'expires_at':reservation['expiry_date'].isoformat(),
-            'message':'Товар заброньовано на 30 хвилин. Оплата й видача відбуваються в аптеці.',
+            'message':'Товар заброньовано на 3 дні. Оплата й видача відбуваються в аптеці.',
         }
     except Exception:
         db.rollback()

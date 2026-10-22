@@ -12,7 +12,46 @@ from pydantic import BaseModel, Field, model_validator
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from app.database import get_db
+from app.database import get_db, engine
+from contextlib import asynccontextmanager
+import logging
+
+
+# One-time, repeatable schema migration executed before the API starts.
+# The DDL matches database/03_reservation_allocations.sql.
+# Never reset or seed the existing production database.
+log = logging.getLogger(__name__)
+
+
+def ensure_reservation_allocations() -> None:
+    with engine.begin() as connection:
+        connection.execute(text("""
+            CREATE TABLE IF NOT EXISTS reservation_allocations (
+                reservation_allocation_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                reservation_id INTEGER NOT NULL
+                    REFERENCES reservations(reservation_id) ON DELETE CASCADE,
+                inventory_id INTEGER NOT NULL
+                    REFERENCES inventory(inventory_id),
+                quantity NUMERIC(12,3) NOT NULL CHECK (quantity > 0),
+                UNIQUE (reservation_id, inventory_id)
+            )
+        """))
+        connection.execute(text("""
+            CREATE INDEX IF NOT EXISTS idx_reservations_expiry
+            ON reservations(status, expiry_date)
+        """))
+        connection.execute(text("""
+            CREATE INDEX IF NOT EXISTS idx_reservation_allocations_inventory
+            ON reservation_allocations(inventory_id)
+        """))
+    log.info("Reservation allocation schema checked")
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Fail deployment visibly if the production schema is incomplete.
+    ensure_reservation_allocations()
+    yield
 
 
 # =====================================================
@@ -22,7 +61,8 @@ from app.database import get_db
 app = FastAPI(
     title="Pharmacy Network API",
     description="Інформаційна система для мережі аптек",
-    version="1.1.0"
+    version="1.1.0",
+    lifespan=lifespan,
 )
 
 
