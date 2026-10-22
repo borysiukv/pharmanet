@@ -552,6 +552,9 @@ def create_sale(
     http_request: Request,
     db: Session = Depends(get_db)
 ):
+    # Reclaim old holds before calculating sellable quantities.
+    from app.booking_router import expire_old
+    expire_old(db)
     # Identity comes from the validated session, never from the browser.
     employee_id = http_request.state.employee_id
     roles = set(http_request.state.roles)
@@ -5026,7 +5029,7 @@ async def protect_business_api(
         return await call_next(request)
 
     # Public catalog is strictly read-only; other methods remain protected.
-    if request.method == "GET" and path in {"/public/locations", "/public/products"}:
+    if (request.method == "GET" and path in {"/public/locations", "/public/products"}) or (request.method == "POST" and path == "/public/reservations"):
         return await call_next(request)
 
     # Validate session cookie.
@@ -5116,6 +5119,12 @@ async def protect_business_api(
         allowed_roles = all_roles
     elif method == "POST" and re.fullmatch(r"/inventory/\d+/(block|unblock)", path):
         allowed_roles = stock_control_roles
+    elif method == "GET" and path == "/sales/catalog":
+        allowed_roles = sales_roles
+    elif method == "GET" and path == "/reservations":
+        allowed_roles = sales_roles
+    elif method == "POST" and re.fullmatch(r"/reservations/\d+/cancel", path):
+        allowed_roles = sales_roles
     elif path == "/sales" and method in {"GET", "POST"}:
         allowed_roles = sales_roles
     elif method == "GET" and path == "/suppliers":
@@ -5203,6 +5212,14 @@ def customer_products(
     offset: int = Query(default=0, ge=0),
     db: Session = Depends(get_db),
 ):
+    # Release expired holds before exposing public stock status.
+    from app.booking_router import expire_old
+    try:
+        expire_old(db)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
     # Public responses deliberately exclude employees, supplier prices,
     # purchase costs, individual batches, and exact inventory quantities.
     rows = db.execute(text("""
@@ -5222,8 +5239,7 @@ def customer_products(
             WHERE pp.product_id = p.product_id
               AND l.location_type = 'PHARMACY'
               AND l.is_active = TRUE
-              AND (CAST(:location_id AS INTEGER) IS NULL
-                   OR pp.location_id = CAST(:location_id AS INTEGER))
+              AND (CAST(:location_id AS INTEGER) IS NULL OR pp.location_id = CAST(:location_id AS INTEGER))
               AND pp.is_active = TRUE
               AND pp.valid_from <= CURRENT_DATE
               AND (pp.valid_to IS NULL OR pp.valid_to >= CURRENT_DATE)
@@ -5238,8 +5254,7 @@ def customer_products(
             WHERE b.product_id = p.product_id
               AND l.location_type = 'PHARMACY'
               AND l.is_active = TRUE
-              AND (CAST(:location_id AS INTEGER) IS NULL
-                   OR i.location_id = CAST(:location_id AS INTEGER))
+              AND (CAST(:location_id AS INTEGER) IS NULL OR i.location_id = CAST(:location_id AS INTEGER))
               AND i.status = 'AVAILABLE'
               AND (b.expiry_date IS NULL OR b.expiry_date >= CURRENT_DATE)
               AND i.quantity > i.reserved_quantity
@@ -5258,3 +5273,7 @@ def customer_products(
     }).mappings().all()
     return {"products": [dict(row) for row in rows], "limit": limit, "offset": offset}
 
+
+# Customer pickup reservations and optimized sales lookup
+from app.booking_router import router as booking_router
+app.include_router(booking_router)
