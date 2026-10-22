@@ -1865,3 +1865,57 @@ nav button.nav-item:focus-visible {
     font-size: 12px;
   }
 }
+/* ==========================================
+   PHARMANET — PRODUCT BUTTONS
+   ========================================== */
+
+.product-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 260px;
+  min-height: 48px;
+  max-width: 100%;
+  padding: 12px 16px;
+
+  background: #e8f5ee;
+  color: #176747;
+
+  border: 1px solid #b7dfc9;
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+
+  cursor: pointer;
+  transition: background 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.product-link:hover {
+  background: #d3ebdd;
+  border-color: #64b38b;
+  box-shadow: 0 3px 10px rgba(23, 103, 71, 0.12);
+}
+
+.product-link:focus-visible {
+  outline: 3px solid #58af85;
+  outline-offset: 2px;
+}
+
+.product-link:active {
+  background: #c5e3d2;
+}
+
+@media (max-width: 600px) {
+  .product-link {
+    width: 100%;
+  }
+}
