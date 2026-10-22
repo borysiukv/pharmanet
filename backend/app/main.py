@@ -5138,7 +5138,8 @@ async def protect_business_api(
     purchasing_roles = {"PURCHASING_MANAGER", "NETWORK_MANAGER", "SYSTEM_ADMIN"}
     transfer_roles = {"WAREHOUSE_WORKER", "PHARMACY_MANAGER", "SYSTEM_ADMIN"}
     writeoff_roles = {
-        "PHARMACIST", "PHARMACY_MANAGER", "WAREHOUSE_WORKER", "SYSTEM_ADMIN",
+        # "PHARMACIST", 
+        "PHARMACY_MANAGER", "WAREHOUSE_WORKER", "SYSTEM_ADMIN",
     }
     stock_control_roles = {"PHARMACY_MANAGER", "WAREHOUSE_WORKER", "SYSTEM_ADMIN"}
     staff_roles = {"NETWORK_MANAGER", "SYSTEM_ADMIN"}
