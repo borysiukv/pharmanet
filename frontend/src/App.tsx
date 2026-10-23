@@ -670,45 +670,30 @@ export default function App() {
 
     if (entryMode === 'employee') {
       return (
-        <>
-          <button
-            type="button"
-            onClick={() => {
-              setAuthError('')
-              setEntryMode('choose')
-            }}
-            aria-label="Повернутися до вибору режиму"
-            style={{
-              position: 'fixed',
-              top: 20,
-              right: 24,
-              zIndex: 1000,
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
-              border: '1px solid #d8e8df',
-              borderRadius: 12,
-              backgroundColor: '#ffffff',
-              color: '#36765a',
-              padding: '11px 17px',
-              fontSize: 14,
-              fontWeight: 600,
-              lineHeight: 1.3,
-              cursor: 'pointer',
-              boxShadow: '0 6px 22px rgba(25, 68, 49, 0.10)',
-            }}
-          >
-            <span aria-hidden="true">←</span>
-            Обрати режим
-          </button>
+        <div className="ph-employee-entry">
+          <div className="ph-employee-entry-header">
+            <button
+              type="button"
+              className="ph-back-to-choice"
+              onClick={() => {
+                setAuthError('')
+                setEntryMode('choose')
+              }}
+              aria-label="Повернутися до вибору режиму"
+            >
+              <span aria-hidden="true">←</span>
+              Обрати режим
+            </button>
+          </div>
+
           <LoginPage onLogin={handleLogin} />
+
           {authError && (
             <div className="ph-auth-global-error" role="alert">
               {authError}
             </div>
           )}
-        </>
+        </div>
       )
     }
 
@@ -720,7 +705,6 @@ export default function App() {
     )
   }
 
-  // =====================================================
   // =====================================================
 
   // AUTHENTICATED APPLICATION
