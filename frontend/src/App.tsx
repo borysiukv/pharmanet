@@ -223,6 +223,12 @@ function hasAccess(
 
   if (!user) return false
 
+  // A pharmacist must never see or open Write-Offs, even if
+  // their account also has another role that normally allows it.
+  if (page === 'writeoffs' && user.roles.includes('PHARMACIST')) {
+    return false
+  }
+
   return user.roles.some(role =>
 
     ACCESS[page].includes(role as Role)
