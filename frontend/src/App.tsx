@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from 'react'
 
 import {
@@ -138,7 +136,6 @@ const ACCESS: Record<Page, readonly Role[]> = {
 
   writeoffs: [
 
-    'PHARMACIST',
 
     'PHARMACY_MANAGER',
 
