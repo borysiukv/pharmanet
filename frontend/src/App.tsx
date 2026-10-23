@@ -679,10 +679,10 @@ export default function App() {
                 setAuthError('')
                 setEntryMode('choose')
               }}
-              aria-label="Повернутися до вибору режиму"
+              aria-label="Змінити режим користування"
             >
               <span aria-hidden="true">←</span>
-              Обрати режим
+              Змінити режим
             </button>
           </div>
 
